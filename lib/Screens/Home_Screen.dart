@@ -4,6 +4,7 @@ import 'package:news_app/Widgets/categories/categories_widget.dart';
 import 'package:news_app/Widgets/home_drawer.dart';
 import 'package:news_app/Widgets/news/news_search_delegate.dart';
 import 'package:news_app/api/model/category_model.dart';
+import 'package:news_app/core/App_Routes.dart';
 import 'package:news_app/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -46,6 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           actionsPadding: const EdgeInsets.symmetric(horizontal: 8),
           actions: [
+            IconButton(
+              icon: const Icon(Icons.bookmark_outline_rounded, size: 30),
+              tooltip: l10n.bookmarks,
+              onPressed: () {
+                Navigator.pushNamed(context, AppRoutes.favoritesRouteName);
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.search_outlined, size: 32),
               onPressed: () {

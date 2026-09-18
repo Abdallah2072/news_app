@@ -217,6 +217,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
+
+  /// No description provided for @bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookmarks'**
+  String get bookmarks;
+
+  /// No description provided for @no_bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'No Saved Articles'**
+  String get no_bookmarks;
+
+  /// No description provided for @no_bookmarks_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Save important news to read them later, even offline.'**
+  String get no_bookmarks_desc;
+
+  /// No description provided for @added_to_bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to bookmarks'**
+  String get added_to_bookmarks;
+
+  /// No description provided for @removed_from_bookmarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from bookmarks'**
+  String get removed_from_bookmarks;
 }
 
 class _AppLocalizationsDelegate

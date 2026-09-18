@@ -67,4 +67,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get home => 'Home';
+
+  @override
+  String get bookmarks => 'Bookmarks';
+
+  @override
+  String get no_bookmarks => 'No Saved Articles';
+
+  @override
+  String get no_bookmarks_desc =>
+      'Save important news to read them later, even offline.';
+
+  @override
+  String get added_to_bookmarks => 'Saved to bookmarks';
+
+  @override
+  String get removed_from_bookmarks => 'Removed from bookmarks';
 }

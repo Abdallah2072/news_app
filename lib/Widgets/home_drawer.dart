@@ -3,6 +3,7 @@ import 'package:news_app/Providers/Language_Provider.dart';
 import 'package:news_app/Providers/Theme_Provider.dart';
 import 'package:news_app/core/App_Colors.dart';
 import 'package:news_app/core/App_Images.dart';
+import 'package:news_app/core/App_Routes.dart';
 import 'package:news_app/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +58,42 @@ class HomeDrawer extends StatelessWidget {
                   const SizedBox(width: 14),
                   Text(
                     l10n.go_To_Home,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Divider(
+            color: Colors.white,
+            thickness: 1,
+            indent: 16,
+            endIndent: 16,
+            height: 28,
+          ),
+
+          // 2. Bookmarks / Favorites
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pushNamed(context, AppRoutes.favoritesRouteName);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.bookmark_outline_rounded,
+                    color: Colors.white,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 14),
+                  Text(
+                    l10n.bookmarks,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,

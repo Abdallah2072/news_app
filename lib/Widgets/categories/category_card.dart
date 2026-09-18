@@ -18,7 +18,6 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isEven = index % 2 == 0;
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
     return GestureDetector(
       onTap: onTap,

@@ -18,5 +18,10 @@
   "view_All" : "View All",
   "view_Full_Articel" : "View Full Articel",
   "search" : "Search",
-  "home" : "Home"
+  "home" : "Home",
+  "bookmarks" : "Bookmarks",
+  "no_bookmarks" : "No Saved Articles",
+  "no_bookmarks_desc" : "Save important news to read them later, even offline.",
+  "added_to_bookmarks" : "Saved to bookmarks",
+  "removed_from_bookmarks" : "Removed from bookmarks"
 }

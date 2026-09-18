@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/api/api_Manager.dart';
 
 class MainErrorWidget extends StatelessWidget {
   final String errorMessage ;

@@ -66,5 +66,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get search => 'بحث';
 
   @override
-  String get home => 'الرئيسيه';
+  String get home => 'الرئيسية';
+
+  @override
+  String get bookmarks => 'الأخبار المفضلة';
+
+  @override
+  String get no_bookmarks => 'لا توجد أخبار مفضلة';
+
+  @override
+  String get no_bookmarks_desc =>
+      'احفظ الأخبار المهمة لتتمكن من قراءتها لاحقاً حتى بدون اتصال بالإنترنت.';
+
+  @override
+  String get added_to_bookmarks => 'تمت الإضافة إلى المفضلة';
+
+  @override
+  String get removed_from_bookmarks => 'تم الحذف من المفضلة';
 }
