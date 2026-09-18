@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/Providers/Theme_Provider.dart';
 import 'package:news_app/api/model/news.dart';
 import 'package:news_app/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsBottomSheet extends StatelessWidget {
@@ -44,11 +46,14 @@ class NewsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    const sheetBg = Colors.white;
-    const textColor = Colors.black;
-    const buttonBg = Colors.black;
-    const buttonText = Colors.white;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.isDarkMode() ||
+        Theme.of(context).brightness == Brightness.dark;
+
+    final sheetBg = isDark ? Colors.white : Colors.black;
+    final textColor = isDark ? Colors.black : Colors.white;
+    final buttonBg = isDark ? Colors.black : Colors.white;
+    final buttonText = isDark ? Colors.white : Colors.black;
 
     final articleText = (news.content != null && news.content!.trim().isNotEmpty)
         ? news.content!
