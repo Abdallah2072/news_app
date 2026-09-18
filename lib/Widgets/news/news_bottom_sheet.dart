@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/Providers/Theme_Provider.dart';
-import 'package:news_app/Providers/favorites_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/api/model/news.dart';
+import 'package:news_app/cubits/favorites/favorites_cubit.dart';
+import 'package:news_app/cubits/favorites/favorites_state.dart';
+import 'package:news_app/cubits/theme/theme_cubit.dart';
 import 'package:news_app/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsBottomSheet extends StatelessWidget {
@@ -47,8 +48,7 @@ class NewsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.isDarkMode() ||
+    final isDark = context.watch<ThemeCubit>().isDarkMode() ||
         Theme.of(context).brightness == Brightness.dark;
 
     final sheetBg = isDark ? Colors.white : Colors.black;
@@ -131,9 +131,11 @@ class NewsBottomSheet extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  Consumer<FavoritesProvider>(
-                    builder: (context, favoritesProvider, child) {
-                      final isFav = favoritesProvider.isFavorite(news);
+                  BlocBuilder<FavoritesCubit, FavoritesState>(
+                    builder: (context, state) {
+                      final isFav = state.favorites.any((item) =>
+                          (item.url != null && item.url == news.url) ||
+                          (item.title != null && item.title == news.title));
                       return Container(
                         height: 52,
                         width: 52,
@@ -148,7 +150,7 @@ class NewsBottomSheet extends StatelessWidget {
                             size: 26,
                           ),
                           onPressed: () async {
-                            final added = await favoritesProvider.toggleFavorite(news);
+                            final added = await context.read<FavoritesCubit>().toggleFavorite(news);
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).hideCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(

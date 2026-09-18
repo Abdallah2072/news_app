@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/Providers/favorites_provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/Widgets/news/news_Items.dart';
+import 'package:news_app/cubits/favorites/favorites_cubit.dart';
+import 'package:news_app/cubits/favorites/favorites_state.dart';
 import 'package:news_app/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -10,8 +11,6 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final favoritesProvider = Provider.of<FavoritesProvider>(context);
-    final favorites = favoritesProvider.favorites;
 
     return Scaffold(
       appBar: AppBar(
@@ -20,8 +19,11 @@ class FavoritesScreen extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
-      body: favorites.isEmpty
-          ? Center(
+      body: BlocBuilder<FavoritesCubit, FavoritesState>(
+        builder: (context, state) {
+          final favorites = state.favorites;
+          if (favorites.isEmpty) {
+            return Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0),
                 child: Column(
@@ -60,16 +62,19 @@ class FavoritesScreen extends StatelessWidget {
                   ],
                 ),
               ),
-            )
-          : ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              itemCount: favorites.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                final news = favorites[index];
-                return NewsItems(news: news);
-              },
-            ),
+            );
+          }
+          return ListView.separated(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            itemCount: favorites.length,
+            separatorBuilder: (context, index) => const SizedBox(height: 16),
+            itemBuilder: (context, index) {
+              final news = favorites[index];
+              return NewsItems(news: news);
+            },
+          );
+        },
+      ),
     );
   }
 }

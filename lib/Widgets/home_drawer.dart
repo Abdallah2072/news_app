@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/Providers/Language_Provider.dart';
-import 'package:news_app/Providers/Theme_Provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/App_Colors.dart';
 import 'package:news_app/core/App_Images.dart';
 import 'package:news_app/core/App_Routes.dart';
+import 'package:news_app/cubits/language/language_cubit.dart';
+import 'package:news_app/cubits/theme/theme_cubit.dart';
 import 'package:news_app/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 class HomeDrawer extends StatelessWidget {
   final VoidCallback onGoToHome;
@@ -15,8 +15,6 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final languageProvider = Provider.of<LanguageProvider>(context);
 
     return Drawer(
       backgroundColor: AppColors.BlackColor,
@@ -138,55 +136,59 @@ class HomeDrawer extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white, width: 1.5),
-                  ),
-                  child: DropdownButton<ThemeMode>(
-                    isExpanded: true,
-                    underline: const SizedBox(),
-                    dropdownColor: const Color(0xFF171717),
-                    icon: const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                    value: themeProvider.themeProvider,
-                    items: [
-                      DropdownMenuItem(
-                        value: ThemeMode.dark,
-                        child: Text(
-                          l10n.dark,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                BlocBuilder<ThemeCubit, ThemeMode>(
+                  builder: (context, themeMode) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 2,
                       ),
-                      DropdownMenuItem(
-                        value: ThemeMode.light,
-                        child: Text(
-                          l10n.light,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white, width: 1.5),
                       ),
-                    ],
-                    onChanged: (newTheme) {
-                      if (newTheme != null) {
-                        themeProvider.ChangeTheme(newTheme);
-                      }
-                    },
-                  ),
+                      child: DropdownButton<ThemeMode>(
+                        isExpanded: true,
+                        underline: const SizedBox(),
+                        dropdownColor: const Color(0xFF171717),
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        value: themeMode,
+                        items: [
+                          DropdownMenuItem(
+                            value: ThemeMode.dark,
+                            child: Text(
+                              l10n.dark,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: ThemeMode.light,
+                            child: Text(
+                              l10n.light,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                        onChanged: (newTheme) {
+                          if (newTheme != null) {
+                            context.read<ThemeCubit>().changeTheme(newTheme);
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),
@@ -225,55 +227,59 @@ class HomeDrawer extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white, width: 1.5),
-                  ),
-                  child: DropdownButton<String>(
-                    isExpanded: true,
-                    underline: const SizedBox(),
-                    dropdownColor: const Color(0xFF171717),
-                    icon: const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                    value: languageProvider.appLanguage,
-                    items: [
-                      DropdownMenuItem(
-                        value: 'en',
-                        child: Text(
-                          l10n.english,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                BlocBuilder<LanguageCubit, String>(
+                  builder: (context, languageCode) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 2,
                       ),
-                      DropdownMenuItem(
-                        value: 'ar',
-                        child: Text(
-                          l10n.arabic,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: Colors.white, width: 1.5),
                       ),
-                    ],
-                    onChanged: (newLang) {
-                      if (newLang != null) {
-                        languageProvider.ChangeLanguage(newLang);
-                      }
-                    },
-                  ),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        underline: const SizedBox(),
+                        dropdownColor: const Color(0xFF171717),
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        value: languageCode,
+                        items: [
+                          DropdownMenuItem(
+                            value: 'en',
+                            child: Text(
+                              l10n.english,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          DropdownMenuItem(
+                            value: 'ar',
+                            child: Text(
+                              l10n.arabic,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                        onChanged: (newLang) {
+                          if (newLang != null) {
+                            context.read<LanguageCubit>().changeLanguage(newLang);
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

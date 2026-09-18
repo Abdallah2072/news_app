@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:news_app/Providers/favorites_provider.dart';
 import 'package:news_app/Widgets/news/news_bottom_sheet.dart';
 import 'package:news_app/api/model/news.dart';
 import 'package:news_app/core/App_Size.dart';
+import 'package:news_app/cubits/favorites/favorites_cubit.dart';
+import 'package:news_app/cubits/favorites/favorites_state.dart';
 import 'package:news_app/l10n/app_localizations.dart';
-import 'package:provider/provider.dart';
 
 class NewsItems extends StatelessWidget {
   final News news;
@@ -80,9 +81,11 @@ class NewsItems extends StatelessWidget {
                 PositionedDirectional(
                   top: 8,
                   end: 8,
-                  child: Consumer<FavoritesProvider>(
-                    builder: (context, favoritesProvider, child) {
-                      final isFav = favoritesProvider.isFavorite(news);
+                  child: BlocBuilder<FavoritesCubit, FavoritesState>(
+                    builder: (context, state) {
+                      final isFav = state.favorites.any((item) =>
+                          (item.url != null && item.url == news.url) ||
+                          (item.title != null && item.title == news.title));
                       return Material(
                         color: Colors.black.withValues(alpha: 0.6),
                         shape: const CircleBorder(),
@@ -90,7 +93,7 @@ class NewsItems extends StatelessWidget {
                         child: InkWell(
                           customBorder: const CircleBorder(),
                           onTap: () async {
-                            final added = await favoritesProvider.toggleFavorite(news);
+                            final added = await context.read<FavoritesCubit>().toggleFavorite(news);
                             if (context.mounted && l10n != null) {
                               ScaffoldMessenger.of(context).hideCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(
