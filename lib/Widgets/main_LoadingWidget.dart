@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/core/App_Colors.dart';
+import 'package:news_app/Widgets/shimmer/news_item_shimmer.dart';
 
 class MainLoadingwidget extends StatelessWidget {
   const MainLoadingwidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(
-        color: AppColors.GrayColor,
-      ),
+    return const SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: NewsListShimmer(itemCount: 4),
     );
   }
 }

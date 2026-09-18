@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/Widgets/main_Error_Widget.dart';
-import 'package:news_app/Widgets/main_LoadingWidget.dart';
+import 'package:news_app/Widgets/shimmer/sources_shimmer.dart';
 import 'package:news_app/Widgets/sources/sources_Widget.dart';
 import 'package:news_app/api/api_Manager.dart';
 import 'package:news_app/api/model/Source_Response.dart';
@@ -22,7 +22,7 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       builder: (context, snapshot) {
         // Loading
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const MainLoadingwidget();
+          return const SourcesShimmer();
         } else if (snapshot.hasError) {
           return MainErrorWidget(
             errorMessage: snapshot.error?.toString() ?? "Something went wrong",
