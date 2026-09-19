@@ -57,10 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: const Icon(Icons.search_outlined, size: 32),
               onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: NewsSearchDelegate(),
-                );
+                showSearch(context: context, delegate: NewsSearchDelegate());
               },
             ),
           ],

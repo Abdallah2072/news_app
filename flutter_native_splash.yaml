@@ -1,0 +1,20 @@
+# flutter_native_splash-acceptance.yaml
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/Images/news_logo.png
+  branding: assets/Images/news_branding.png
+  branding_bottom_padding: 24
+  color_dark: "#121312"
+  image_dark: assets/Images/news_logo_dark.png
+  branding_dark: assets/Images/news_branding_dark.png
+
+  android_12:
+    image: assets/Images/news_logo.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/Images/news_logo_dark.png
+    icon_background_color_dark: "#121312"
+    branding: assets/Images/news_branding.png
+    branding_dark: assets/Images/news_branding_dark.png
+
+
+
