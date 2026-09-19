@@ -14,16 +14,7 @@ import 'package:news_app/l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheManager.init();
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => LanguageCubit()),
-        BlocProvider(create: (context) => ThemeCubit()),
-        BlocProvider(create: (context) => FavoritesCubit()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -31,28 +22,37 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LanguageCubit, String>(
-      builder: (context, languageCode) {
-        return BlocBuilder<ThemeCubit, ThemeMode>(
-          builder: (context, themeMode) {
-            return MaterialApp(
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              locale: Locale(languageCode),
-              debugShowCheckedModeBanner: false,
-              initialRoute: AppRoutes.homeRouteName,
-              routes: {
-                AppRoutes.homeRouteName: (context) => const HomeScreen(),
-                AppRoutes.favoritesRouteName: (context) => const FavoritesScreen(),
-                AppRoutes.articleWebViewRouteName: (context) => const ArticleWebViewScreen(),
-              },
-              theme: AppThemes.LightMode,
-              darkTheme: AppThemes.DarkMode,
-              themeMode: themeMode,
-            );
-          },
-        );
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => LanguageCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => FavoritesCubit()),
+      ],
+      child: BlocBuilder<LanguageCubit, String>(
+        builder: (context, languageCode) {
+          return BlocBuilder<ThemeCubit, ThemeMode>(
+            builder: (context, themeMode) {
+              return MaterialApp(
+                localizationsDelegates: AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+                locale: Locale(languageCode),
+                debugShowCheckedModeBanner: false,
+                initialRoute: AppRoutes.homeRouteName,
+                routes: {
+                  AppRoutes.homeRouteName: (context) => const HomeScreen(),
+                  AppRoutes.favoritesRouteName: (context) =>
+                      const FavoritesScreen(),
+                  AppRoutes.articleWebViewRouteName: (context) =>
+                      const ArticleWebViewScreen(),
+                },
+                theme: AppThemes.LightMode,
+                darkTheme: AppThemes.DarkMode,
+                themeMode: themeMode,
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
