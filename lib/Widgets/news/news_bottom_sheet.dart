@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/api/model/news.dart';
+import 'package:news_app/core/App_Routes.dart';
 import 'package:news_app/cubits/favorites/favorites_cubit.dart';
 import 'package:news_app/cubits/favorites/favorites_state.dart';
 import 'package:news_app/cubits/theme/theme_cubit.dart';
 import 'package:news_app/l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class NewsBottomSheet extends StatelessWidget {
   final News news;
 
   const NewsBottomSheet({super.key, required this.news});
 
-  Future<void> _launchUrl(BuildContext context) async {
+  void _openArticle(BuildContext context) {
     final urlString = news.url;
     if (urlString == null || urlString.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -21,28 +21,12 @@ class NewsBottomSheet extends StatelessWidget {
       return;
     }
 
-    final uri = Uri.tryParse(urlString);
-    if (uri == null) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Invalid article URL")),
-        );
-      }
-      return;
-    }
-    try {
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        await launchUrl(uri, mode: LaunchMode.inAppBrowserView);
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Could not open article: $e")),
-        );
-      }
-    }
+    Navigator.pop(context); // Close the bottom sheet
+    Navigator.pushNamed(
+      context,
+      AppRoutes.articleWebViewRouteName,
+      arguments: news,
+    );
   }
 
   @override
@@ -118,7 +102,7 @@ class NewsBottomSheet extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                        onPressed: () => _launchUrl(context),
+                        onPressed: () => _openArticle(context),
                         child: Text(
                           l10n.view_Full_Articel,
                           style: TextStyle(

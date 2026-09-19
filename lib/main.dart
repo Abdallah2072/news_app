@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/Screens/Home_Screen.dart';
 import 'package:news_app/Screens/favorites/favorites_screen.dart';
+import 'package:news_app/Screens/news_details/article_web_view_screen.dart';
 import 'package:news_app/core/App_Routes.dart';
 import 'package:news_app/core/App_Themes.dart';
 import 'package:news_app/core/cache/cache_manager.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
               routes: {
                 AppRoutes.homeRouteName: (context) => const HomeScreen(),
                 AppRoutes.favoritesRouteName: (context) => const FavoritesScreen(),
+                AppRoutes.articleWebViewRouteName: (context) => const ArticleWebViewScreen(),
               },
               theme: AppThemes.LightMode,
               darkTheme: AppThemes.DarkMode,
